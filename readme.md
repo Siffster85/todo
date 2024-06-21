@@ -1,0 +1,1 @@
+npm run dev in both the fe and be folders, then crack on.

@@ -1,10 +1,12 @@
 import express from "express";
 import listRouter from "./routes/list.router";
 import itemRouter from "./routes/item.router";
+const cors = require("cors")
 
 const app = express()
-const port = process.env.PORT || 8080
+const port = 12345
 
+app.use(cors())
 app.use(express.json())
 
 app.use("/lists", listRouter)

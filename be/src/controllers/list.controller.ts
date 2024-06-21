@@ -31,6 +31,7 @@ export const getListById = async (req, res) => {
 }
 
 export const createList = async (req, res) => {
+    
     try {
         const listData = req.body
         const list = await listClient.create({
