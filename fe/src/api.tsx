@@ -18,10 +18,18 @@ export function createList(data: object) {
     return todoAPI.post('/lists', data)
 }
 
-export function getAllItems() {
-    return todoAPI.get('/items')
+export function deleteList(id: number){
+    return todoAPI.delete(`/lists/${id}`)
 }
 
 export function createListItem(data: object) {
     return todoAPI.post('/items', data)
+}
+
+export function patchListItem(id: number, data: object){
+    return todoAPI.patch(`/items/${id}`, data)
+}
+
+export function deleteListItem(id: number){
+    return todoAPI.delete(`/items/${id}`)
 }

@@ -1,6 +1,6 @@
 "use client"
 import { useEffect, useState } from "react";
-import { createList, createListItem, getLists, getListsById } from "@/api";
+import { createList, createListItem, deleteList, deleteListItem, getLists, getListsById, patchListItem } from "@/api";
 import Items from "./items";
 
 export default function Lists() {
@@ -18,11 +18,14 @@ export default function Lists() {
         event.preventDefault();
         if (item) {
             createListItem({
-                id: 0,
                 task: item,
-                completed: false
-            })
-            setItem("")
+                completed: false,
+                listId: list.id
+            }).then(() => handleSelect(list.id)
+            ).then(() => setItem("")
+        ).catch((error) => {
+            console.log(error);
+        })
         }
     }
     const refreshData = () => {
@@ -30,36 +33,53 @@ export default function Lists() {
             const result = await getLists()
             setLists(result.data.data)
         }
-        fetchLists()  
+        fetchLists()
+        handleSelect(list.id)
     }
 
-    const handleSelect = async (listId:number) => {       
+    const handleSelect = async (listId:number) => { 
+        if(listId !== 0){
         const result = await getListsById(listId)
         setList(result.data);
         setItems(result.data.item);
-    }
+    }}
     const makeList = async () => {
         await createList(newList)
         refreshData()
     }
 
-    const addItem = (item: ItemsArray) => {
-        setItems([...items, item])
+    const removeList = (id: number) => {
+        const remove = async () => {
+            await deleteList(id)
+            setList({id: 0, title: ""})
+            setLists(lists.filter((list) => list.id !== id))
+        }
+        remove()
+        refreshData()
+    }
+    const deleteItem = (id: number) => {
+        const remove = async () => {
+            await deleteListItem(id)
+            setItems(items.filter((item) => item.id !== id))
+        }
+        remove()
         refreshData()
     }
 
-    const deleteItem = (id: number) => {
-        setItems(items.filter((item) => item.id !== id))
+    const updateStatus = (id: number, isChecked: boolean) => {
+        const completedCheck = async () => {
+            await patchListItem(id, {completed: isChecked})
+            setItems(items.map((items) => items.id === id ? {...items, completed: !items.completed} 
+            : items));
+        }
+        completedCheck()
+        refreshData()
     }
 
-    const updateStatus = (id: number) => {
-        setItems((items) => items.id === id ? {...items, completed: !items.completed} 
-        : items);
-    }
-
-    useEffect(() => {
+    useEffect(() => {  
         refreshData()        
     }, [])
+
     return (
         <div className="py-1 px-1 border-2">
             <form onSubmit={event => {
@@ -89,15 +109,17 @@ export default function Lists() {
                     )}
             </div>
             <div className="border-4 rounded border-pink-600 p-1">
-            <p>{list.title}</p>
-            <div className="border-4 rounded border-black-600 p-1">
+            {list.id === 0 ? <p>Select a List</p> : <p>{list.title}</p>}
+            {list.id === 0 ? <></> : <div className="border-4 rounded border-black-600 p-1">
+            {items.length === 0 ? <p>Please Add Items to your To-Do List</p> : <div>
             {items.map((item) => {        
                 return (
                     <Items key={item.id} item={item} deleteItem={deleteItem} updateStatus={updateStatus}/> 
                 )}
             )}
-            </div>
-            <div>
+            </div>}
+            </div>}
+            {list.id === 0 ? <></> : <div>
             <form action="">
                 <label htmlFor="add_item">
                     Add Item:
@@ -105,7 +127,8 @@ export default function Lists() {
                 <input type="text" value={item} id="add_item" onChange={handleAddItem} className="border-2 border-black m-2 rounded-md" />
                 <button onClick={handleSubmit} id="add_item" className="bg-green-300 px-4 rounded-lg border-2 border-black hover:bg-opacity-75">Submit</button>
             </form>
-            </div>
+            </div>}
+            <button onClick={() => removeList(list.id)} className="bg-red-300 px-1 rounded-lg border-2 border-black hover:bg-opacity-75">Delete List</button>
             </div>
             </div>
         </div>
