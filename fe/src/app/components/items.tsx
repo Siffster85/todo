@@ -1,24 +1,38 @@
+import { TrashIcon } from "@heroicons/react/16/solid";
+import { CheckBadgeIcon } from "@heroicons/react/24/outline";
 
 export default function Items({item, deleteItem, updateStatus}: ItemProps) {
 
     const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const isChecked = event.target.checked; // Get the checked value
-        updateStatus(item?.id, isChecked); // Pass the checked state to updateStatus
+        const isChecked = event.target.checked;
+        updateStatus(item?.id, isChecked);
     }
 
+    const CheckboxIcon: React.FC<CheckboxIconProps> = ({ checked, onChange }) => (
+        <label className="flex h-7 w-7 cursor-pointer">
+        <input
+            type="checkbox"
+            className="hidden"
+            checked={checked}
+            onChange={onChange}
+        />
+        {checked ? (
+            <CheckBadgeIcon className="text-green-400 h-7 w-7 fill-white hover:fill-gray-200"/>
+            ) : (
+            <CheckBadgeIcon className="text-gray-400 h-7 w-7 hover:fill-white"/>
+            )}
+        </label>
+    );
+
     return (
-        //loop items from DB in here and create multiple items within the list from DB
-        <div className="flex items-center py-1 px-1">
-            <label className="peer flex gap-2 items-center m-2">
-                <input onChange={handleCheckboxChange}
-                type="checkbox" 
-                checked={item?.completed} 
-                className="border-black h-5 w-5 accent-purple-700 peer"/>
-                <p className="peer-checked:line-through decoration-2"> 
-                    {item?.task}
-                </p>
+        <div className="flex self-center justify-center items-center text-start p-1 m-1">
+            <label className="w-4/5 flex gap-2 items-center m-2">
+                <CheckboxIcon 
+                    checked={item?.completed}
+                    onChange={handleCheckboxChange}/>
+                <p> {item?.task}</p>
             </label>
-            <button onClick={() => deleteItem(item?.id)} className="bg-red-300 px-1 rounded-lg border-2 border-black hover:bg-opacity-75">Remove</button>
+            <TrashIcon onClick={() => deleteItem(item?.id)} className="h-7 w-7 text-red-600 cursor-pointer hover:text-red-500" />
         </div>
     );
 }

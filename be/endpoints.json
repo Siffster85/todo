@@ -1,0 +1,36 @@
+{
+    "GET /ping'": {
+        "description": "Responds with a { message:'ping'} if the server is up"
+    },
+    "GET /lists/": {
+        "description": "Returns a JSON of all list Objects"
+    },
+    "GET /lists/:id": {
+        "description": "returns a single JSON of a specific list and it's related items"
+    },
+    "POST /lists/": {
+        "description": "Takes the body and creates a List with the Title provided."
+    },
+    "DELETE /lists/:id": {
+        "description": "Deletes a specific list and all associated Items"
+    },
+    "POST /items/": {
+        "description": "Creates a new List Item associated with the list"
+    },
+    "PATCH /items/:id": {
+        "description": "Updates the completed status and saves it to the database."
+    },
+    "DELETE /items/:id": {
+        "description": "Deletes a specific Item"
+    },
+
+    "The Below 2 functions are not used in the app but are useful for testing": {
+
+    "GET /items/": {
+        "description": "returns all the items"
+    },
+    "GET /items/:id": {
+        "description": "Returns a specific Item"
+    }
+}
+}

@@ -24,3 +24,15 @@ interface ListProps {
     id: number
 }
 
+interface CheckboxIconProps {
+    checked: boolean
+    onChange: function
+}
+
+interface ConfirmationModalProps {
+    isOpen: boolean;
+    onClose: () => void;
+    onConfirm: () => void;
+    message?: string; // Optional confirmation message
+}
+
