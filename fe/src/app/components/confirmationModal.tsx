@@ -1,4 +1,3 @@
-
 const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
         isOpen,
         onClose,

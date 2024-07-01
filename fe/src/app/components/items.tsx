@@ -7,7 +7,8 @@ export default function Items({item, deleteItem, updateStatus}: ItemProps) {
         const isChecked = event.target.checked;
         updateStatus(item?.id, isChecked);
     }
-
+    // This function controls the visual output for the DB status of each list item
+    
     const CheckboxIcon: React.FC<CheckboxIconProps> = ({ checked, onChange }) => (
         <label className="flex h-7 w-7 cursor-pointer">
         <input
