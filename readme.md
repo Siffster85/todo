@@ -22,8 +22,8 @@ You need to do a little prep for this to work:
 
 7) If you open a browser and navigate to http://localhost:3000/ it will load the app, the backend is hardcoded to port 12345 with can be changed in the index.ts file in /be/src
 
-8) You can add your own to-do by entering a title and hitting enter or add, a black field won't be accepted. If you then click on your new list you will be able to add items to that list in the same fashion.
+8) You can add your own to-do by entering a title and hitting enter or add, a blank field won't be accepted. If you then click on your new list you will be able to add items to that list in the same fashion.
 
-9) You can mark the task completed by clicking on the check icon to the left and delete the task by clicking on the trash icon to the right. There is no confirmation for either.
+11) You can mark the task completed by clicking on the check icon to the left and delete the task by clicking on the trash icon to the right. There is no confirmation for either.
 
-10) If you wish to delete the list you can do so by clicking the Delete List button and then confirming it.
+12) If you wish to delete the list you can do so by clicking the Delete List button and then confirming it.
